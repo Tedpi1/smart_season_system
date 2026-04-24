@@ -52,13 +52,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       // Dark Theme
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-          brightness: Brightness.dark,
-        ),
-        brightness: Brightness.dark,
-      ),
+
 
       // Auto theme
       themeMode: ThemeMode.system,

@@ -37,6 +37,7 @@ dependencies:
   flutter_svg: ^2.0.9
   http: ^1.2.1
   provider: ^6.1.2
+  animate_do: ^3.1.2
 
 
 dev_dependencies:

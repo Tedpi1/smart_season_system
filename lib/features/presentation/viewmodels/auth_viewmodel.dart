@@ -22,6 +22,7 @@ class LoginViewModel extends ChangeNotifier {
 
     try {
       final result = await repository.login(username, password);
+      print(("Results $result "));
       _username = result.username;
     } catch (e) {
       _error = e.toString();
@@ -30,4 +31,5 @@ class LoginViewModel extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
 }
