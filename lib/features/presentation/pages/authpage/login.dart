@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:animate_do/animate_do.dart';
 import '../../viewmodels/auth_viewmodel.dart';
 import '../../../../core/utils/screensize.dart';
+import '../../viewmodels/field_viewmodel.dart';
+import '../home.dart';
 
 class LoginUI extends StatefulWidget {
   const LoginUI({super.key});
@@ -16,6 +18,7 @@ class _LoginUIState extends State<LoginUI> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+
   @override
   void dispose() {
     emailController.dispose();
@@ -27,7 +30,22 @@ class _LoginUIState extends State<LoginUI> {
   Widget build(BuildContext context) {
     // Access the viewmodel once at the top
     final vm = context.watch<LoginViewModel>();
+    final r=context.watch<LoginViewModel>().role;
     final h = ScreenSize.safeHeight(context);
+
+    if (vm.state == LoginState.success) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+              create: (_) => DashboardViewModel()..fetchDashboard(),
+              child: HomePage(role: r!),
+            ),
+          ),
+        );
+      });
+    }
 
     return Scaffold(
       body: Container(
@@ -47,7 +65,6 @@ class _LoginUIState extends State<LoginUI> {
           children: <Widget>[
             SizedBox(height: 80),
 
-            // --- HEADER SECTION ---
             Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
