@@ -63,20 +63,35 @@ class _SideBarState extends State<SideBar> {
             ),
           ),
 
-          // 🔹 Dark mode toggle
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (isExpanded) Text("Dark"),
-              Switch(value: false, onChanged: (v) {}),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: isExpanded
+                ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Dark"),
+                Switch(
+                  value: false,
+                  onChanged: (v) {},
+                ),
+              ],
+            )
+                : IconButton(
+              icon: const Icon(Icons.dark_mode),
+              onPressed: () {},
+            ),
           ),
 
           const SizedBox(height: 10),
 
-          // 🔹 Profile section
           ListTile(
-            leading: CircleAvatar(child: Icon(Icons.person)),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: isExpanded ? 16 : 8,
+            ),
+            leading: CircleAvatar(
+              radius: isExpanded ? 20 : 14,
+              child: Icon(Icons.person, size: isExpanded ? 20 : 14),
+            ),
             title: isExpanded ? Text("Harper Nelson") : null,
             subtitle: isExpanded ? Text("Admin") : null,
           ),

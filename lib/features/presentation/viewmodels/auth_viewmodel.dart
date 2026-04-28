@@ -14,11 +14,13 @@ class LoginViewModel extends ChangeNotifier {
   String? _username;
   LoginState _state = LoginState.idle;
   int? _role;
+  int? _userId;
 
   bool get isLoading => _isLoading;
   String? get error => _error;
   String? get username => _username;
   int? get role=>_role;
+  int? get userId=>_userId;
 
   LoginState get state => _state;
 
@@ -32,6 +34,7 @@ class LoginViewModel extends ChangeNotifier {
       final result = await repository.login(username, password);
       _username = result.username;
       _role=result.role;
+      _userId=result.id;
 
       _state = LoginState.success;
     } catch (e) {

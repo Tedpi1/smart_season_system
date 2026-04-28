@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animate_do/animate_do.dart';
+import '../../../../core/utils/baseUrl.dart';
+import '../../../data/datasources/field_remote.dart';
+import '../../../data/repositories/field_repo.dart';
 import '../../viewmodels/auth_viewmodel.dart';
 import '../../../../core/utils/screensize.dart';
 import '../../viewmodels/field_viewmodel.dart';
@@ -31,15 +34,19 @@ class _LoginUIState extends State<LoginUI> {
     // Access the viewmodel once at the top
     final vm = context.watch<LoginViewModel>();
     final r=context.watch<LoginViewModel>().role;
+    final id=context.watch<LoginViewModel>().userId;
     final h = ScreenSize.safeHeight(context);
 
     if (vm.state == LoginState.success) {
+      print("id $id");
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
-              create: (_) => DashboardViewModel()..fetchDashboard(),
+              create: (_) => DashboardViewModel(
+                FieldRepo(FieldRemoteSource(baseUrl)),
+              )..fetchDashboard(id!,r),
               child: HomePage(role: r!),
             ),
           ),
