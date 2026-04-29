@@ -110,10 +110,37 @@ class AssignField {
 
   factory AssignField.fromJson(Map<String, dynamic> json) {
     return AssignField(
-      field_name: json['field_name'] ?? 0,
+      field_name: json['field_name'] ?? '',
       crop_type: json['crop_type'],
       stage: json['stage'],
-      agent: json['username']
+      agent: json['agent'] != null &&
+          json['agent']['username'] != null
+          ? json['agent']['username']
+          : "Unassigned",
+    );
+  }
+}
+
+
+class UserFields {
+  final String field_name;
+  final String crop_type;
+  final String stage;
+
+
+
+  UserFields({
+    required this.field_name,
+    required this.crop_type,
+    required this.stage,
+
+  });
+
+  factory UserFields.fromJson(Map<String, dynamic> json) {
+    return UserFields(
+      field_name: json['field_name'] ?? '',
+      crop_type: json['crop_type'],
+      stage: json['stage'],
     );
   }
 }

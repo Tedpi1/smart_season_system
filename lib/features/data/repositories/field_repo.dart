@@ -18,8 +18,19 @@ class FieldRepo {
     return FieldStatusItem.fromJson(data);
   }
 
-  Future<AssignField> FieldRepos() async{
-    final data= await remote.fetchAssignedFields();
-    return AssignField.fromJson(data);
+  Future<List<AssignField>> fieldRepos() async {
+    final data = await remote.fetchAssignedFields();
+
+    return (data as List)
+        .map((item) => AssignField.fromJson(item))
+        .toList();
+  }
+
+  Future<List<UserFields>> agentField(int id) async{
+    final data =await remote.fetchAgentsFields(id);
+
+    return (data as List)
+        .map((item)=> UserFields.fromJson(item))
+        .toList();
   }
 }

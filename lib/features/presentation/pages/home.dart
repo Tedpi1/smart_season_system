@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_season_system/features/presentation/widgets/AgentsTable.dart';
 import '../viewmodels/field_viewmodel.dart';
 import '../widgets/field_cards.dart';
 import '../widgets/piechart.dart';
 import '../widgets/sidebar.dart';
+import '../widgets/tableWidget.dart';
 
 class HomePage extends StatefulWidget {
   final int role;
@@ -37,9 +39,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(16),
-                    child: Column(
+                    child:Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         // GRID
                         LayoutBuilder(
@@ -59,8 +60,7 @@ class _HomePageState extends State<HomePage> {
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: vm.cards.length,
-                              gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: crossAxisCount,
                                 crossAxisSpacing: 12,
                                 mainAxisSpacing: 12,
@@ -83,6 +83,43 @@ class _HomePageState extends State<HomePage> {
                             child: Padding(
                               padding: const EdgeInsets.all(12),
                               child: Piewidget(vm: vm),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // ✅ NEW: ALL FIELDS TABLE
+                        Card(
+                          elevation: 3,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "All Fields",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+
+                                const SizedBox(height: 12),
+                                if (widget.role==1)
+                                vm.fields.isEmpty
+                                    ? const Center(child: Text("No data available"))
+                                    : AllFieldsTable(fields: vm.fields),
+                                if (widget.role==2)
+                                  vm.userfield.isEmpty
+                                      ? const Center(child: Text("No data available"))
+                                      : AgentsTable(fields: vm.userfield),
+
+
+                              ],
                             ),
                           ),
                         ),

@@ -3,7 +3,7 @@ import 'package:smart_season_system/core/utils/color.dart';
 import 'package:smart_season_system/core/utils/screensize.dart';
 import '../../../core/utils/get_colors.dart';
 import '../../data/models/models.dart';
-import '../model.dart';
+import '../models/dashboar_cards.dart';
 
 class FieldCards extends StatelessWidget {
   final DashboardCardModel card;

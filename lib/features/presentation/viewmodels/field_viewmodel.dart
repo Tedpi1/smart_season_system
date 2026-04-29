@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../data/models/models.dart';
 import '../../data/repositories/field_repo.dart';
-import '../model.dart';
+import '../models/dashboar_cards.dart';
 
 
 class DashboardViewModel extends ChangeNotifier {
@@ -16,6 +17,8 @@ class DashboardViewModel extends ChangeNotifier {
   int completed = 0;
   int count=0;
   double percentage=0.0;
+  List<AssignField> fields = [];
+  List<UserFields>  userfield=[];
 
   Future<void> fetchDashboard(int userId, int role) async {
     isLoading = true;
@@ -26,6 +29,8 @@ class DashboardViewModel extends ChangeNotifier {
 
       final piedata= await repo.PieData(userId, role);
 
+      final tableData=await repo.fieldRepos();
+      final field= await repo.agentField(userId);
       total = data.totalFields;
       active = data.healthyAndProgressing;
       atRisk = data.needsAttention;
@@ -33,31 +38,17 @@ class DashboardViewModel extends ChangeNotifier {
       count=piedata.count;
       percentage=piedata.percentage;
 
+      fields = tableData;
+      userfield=field;
+
     } catch (e) {
-      print("Dashboard error: $e");
+      print("Dashboard errors: $e");
     }
 
     isLoading = false;
     notifyListeners();
   }
-  // Future<void> fetchPie(int userId, int role) async {
-  //   isLoading = true;
-  //   notifyListeners();
-  //
-  //   try {
-  //     final data = await repo.PieData(userId, role);
-  //
-  //     count = data.count;
-  //     percentage = data.percentage;
-  //
-  //
-  //   } catch (e) {
-  //     print("Pie error: $e");
-  //   }
-  //
-  //   isLoading = false;
-  //   notifyListeners();
-  // }
+
 
   List<DashboardCardModel> get cards => [
     DashboardCardModel(
