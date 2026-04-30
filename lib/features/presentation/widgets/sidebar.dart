@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../pages/authpage/login.dart';
+
 class SideBar extends StatefulWidget {
   final int role;
+  final String userName;
 
-  const SideBar({super.key, required this.role});
+  const SideBar({
+    super.key,
+    required this.role,
+    required this.userName
+  });
 
   @override
   State<SideBar> createState() => _SideBarState();
@@ -33,23 +40,13 @@ class _SideBarState extends State<SideBar> {
           ),
 
           const SizedBox(height: 20),
+          if(widget.role==1)
           Expanded(
             child: ListView(
               children: [
                 buildItem(Icons.dashboard, "Dashboard", 0),
-                buildItem(Icons.store, "Marketplace", 1),
-                buildItem(Icons.shopping_cart, "Orders", 2),
-                buildItem(Icons.local_shipping, "Tracking", 3),
-
-                if (isExpanded)
-                  Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Text("PAYMENTS",
-                        style: TextStyle(color: Colors.grey)),
-                  ),
-
-                buildItem(Icons.account_balance, "Ledger", 4),
-                buildItem(Icons.attach_money, "Taxes", 5),
+                buildItem(Icons.store, "Agents", 1),
+                buildItem(Icons.shopping_cart, "Field", 2),
 
                 if (isExpanded)
                   Padding(
@@ -62,14 +59,36 @@ class _SideBarState extends State<SideBar> {
               ],
             ),
           ),
+          if(widget.role==2)
+            Expanded(
+              child: ListView(
+                children: [
+                  buildItem(Icons.dashboard, "Dashboard", 0),
+                  buildItem(Icons.shopping_cart, "Field", 1),
+
+                  if (isExpanded)
+                    Padding(
+                      padding: EdgeInsets.all(12),
+                      child:
+                      Text("SYSTEM", style: TextStyle(color: Colors.grey)),
+                    ),
+
+                  buildItem(Icons.settings, "Settings", 3),
+                ],
+              ),
+            ),
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: isExpanded
                 ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("Dark"),
+                Expanded(
+                  child: Text(
+                    "Dark",
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
                 Switch(
                   value: false,
                   onChanged: (v) {},
@@ -83,7 +102,7 @@ class _SideBarState extends State<SideBar> {
           ),
 
           const SizedBox(height: 10),
-
+          if(widget.role==1)
           ListTile(
             contentPadding: EdgeInsets.symmetric(
               horizontal: isExpanded ? 16 : 8,
@@ -92,14 +111,35 @@ class _SideBarState extends State<SideBar> {
               radius: isExpanded ? 20 : 14,
               child: Icon(Icons.person, size: isExpanded ? 20 : 14),
             ),
-            title: isExpanded ? Text("Harper Nelson") : null,
+            title: isExpanded ? Text("${widget.userName}") : null,
+
             subtitle: isExpanded ? Text("Admin") : null,
           ),
+          if(widget.role==2)
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: isExpanded ? 16 : 8,
+              ),
+              leading: CircleAvatar(
+                radius: isExpanded ? 20 : 14,
+                child: Icon(Icons.person, size: isExpanded ? 20 : 14),
+              ),
+              title: isExpanded ? Text("${widget.userName}") : null,
+
+              subtitle: isExpanded ? Text("Agent") : null,
+            ),
 
           // 🔹 Logout
           ListTile(
             leading: Icon(Icons.logout),
             title: isExpanded ? Text("Logout") : null,
+            onTap: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => LoginUI()),
+                    (route) => false,
+              );
+            },
           ),
 
           const SizedBox(height: 10),
@@ -127,9 +167,17 @@ class _SideBarState extends State<SideBar> {
         child: Row(
           children: [
             Icon(icon, color: Colors.green),
+
             if (isExpanded) SizedBox(width: 10),
+
             if (isExpanded)
-              Text(label, style: TextStyle(fontSize: 14)),
+              Expanded(
+                child: Text(
+                  label,
+                  style: TextStyle(fontSize: 14),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
           ],
         ),
       ),

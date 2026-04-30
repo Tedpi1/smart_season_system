@@ -9,8 +9,13 @@ import '../widgets/tableWidget.dart';
 
 class HomePage extends StatefulWidget {
   final int role;
+  final String userName;
 
-  const HomePage({super.key, required this.role});
+  const HomePage({
+    super.key,
+    required this.role,
+    required this.userName
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -22,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     final vm = context.watch<DashboardViewModel>();
 
     return Scaffold(
-      drawer: SideBar(role: widget.role),
+      drawer: SideBar(role: widget.role,userName: widget.userName,),
       appBar: AppBar(),
       body: SizedBox(
         width: double.infinity,

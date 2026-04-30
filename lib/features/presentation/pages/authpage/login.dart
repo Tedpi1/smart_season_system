@@ -31,9 +31,10 @@ class _LoginUIState extends State<LoginUI> {
 
   @override
   Widget build(BuildContext context) {
-    // Access the viewmodel once at the top
+
     final vm = context.watch<LoginViewModel>();
     final r=context.watch<LoginViewModel>().role;
+    final n=context.watch<LoginViewModel>().username;
     final id=context.watch<LoginViewModel>().userId;
     final h = ScreenSize.safeHeight(context);
 
@@ -47,7 +48,7 @@ class _LoginUIState extends State<LoginUI> {
               create: (_) => DashboardViewModel(
                 FieldRepo(FieldRemoteSource(baseUrl)),
               )..fetchDashboard(id!,r),
-              child: HomePage(role: r!),
+              child: HomePage(role: r!, userName: n!,),
             ),
           ),
         );
